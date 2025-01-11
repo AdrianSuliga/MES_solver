@@ -9,8 +9,14 @@ static double max(double a, double b);
 static void print_vector(const gsl_vector *v);
 static void print_matrix(const gsl_matrix *v);
 
-int main() {
-    int n = 200;
+int main(int argc, char **argv) {
+    int n;
+    if (argc > 1) {
+        n = atoi(argv[1]);
+    } else {
+        n = 20;
+    }
+
     gsl_matrix *L = create_left_matrix(n);
     gsl_vector *R = create_right_vector(n);
     gsl_vector *W = gsl_vector_alloc(n - 1);
@@ -24,7 +30,7 @@ int main() {
     FILE *fpt;
     fpt = fopen("result.csv", "w+");
     fprintf(fpt, "X, Y\n");
-    for (double x = 0.0; x < 3.0; x += 0.01) {
+    for (double x = 0.0; x < 3.0; x += 0.001) {
         fprintf(fpt, "%le, %le\n", x, Phi(x, W, n));
     }
 
